@@ -14,7 +14,7 @@ function App() {
   const questions: Question[] = [
     {
       id: 1,
-      question: "1. factorial and fibonacci series",
+      question: "1. factorial and fibonacci series using Recursion",
       answer: "",
       codeExample: `
 def factorial(n):
@@ -43,7 +43,14 @@ print(fibonacci(4))
     #   0,    1,    1,    2,    3,    5,    8,   13,   21, ...
     # f(0), f(1), f(2), f(3), f(4), f(5), f(6), f(7), f(8)
     # 1 + 1 = 2
-    # 1 + 2 = 3`
+    # 1 + 2 = 3
+
+------------------------------------------------------------------------------------------
+
+What is Recursion?
+  Recursion is when a function calls itself to solve a smaller part of the problem.
+  
+It keeps calling itself until it reaches a condition called the base case, which stops the recursion.`
     },
     {
       id: 2,
@@ -401,6 +408,31 @@ print(result)
 🧾 Output:
 {5: ['apple'], 6: ['banana', 'cherry']}
 
+------------------------------------------------------------------------------------------
+
+----> group with first latter of alphabet
+
+fruits = ["apple", "banana", "cherry"]
+result = {}
+
+for fruit in fruits:
+    first_letter = fruit[0]  # Get first letter
+    if first_letter not in result:
+        result[first_letter] = []  # Create empty list for that letter
+    result[first_letter].append(fruit)  # Add fruit to the list
+
+print(result)
+
+
+output:
+
+{
+    'a': ['apple'],
+    'b': ['banana'],
+    'c': ['cherry']
+}
+
+
       `
     },
     {
@@ -445,22 +477,195 @@ print(unique)
 `
     },
     {
-      id: 4,
-      question: "",
+      id: 11,
+      question: "11. Majority Element II - Elements occurring more than ⌊N/3⌋ times",
       answer: "",
-      codeExample: ``
+      codeExample: `
+def majorityElement(arr):
+    n = len(arr)
+    
+    result = []
+    for candidate in arr:
+        if candidate not in result and arr.count(candidate) > n // 3:  # this means first solve n//3 then check if the candidate is in the array
+                                                                       # like n = 5 then 5//3 = 1
+            result.append(candidate)
+    
+
+    return sorted(result)
+
+
+print(majorityElement([2, 1, 5, 5, 5, 5, 6, 6, 6, 6, 6]))  # ➜ [5, 6]
+print(majorityElement([1, 2, 3, 3, 1]))                   # ➜ [1, 3]
+print(majorityElement([1, 2, 1, 4, 2, 1, 1, 2, 8, 8, 8, 2, 4, 1, 5, 6, 7, 8]))      `
     },
     {
-      id: 4,
-      question: "",
-      answer: "",
-      codeExample: ``
+      id: 12,
+      question: "12. Stock Buy and Sell - Multiple Transaction Allowed",
+      answer: "Given an array prices[] of size n denoting the cost of stock on each day, the task is to find the maximum total profit if we can buy and sell the stocks any number of times.",
+      codeExample: `
+# Python Program to find the max profit when multiple
+# transactions are allowed
+
+def maximumProfit(prices):
+    res = 0
+
+    # Keep on adding the difference between
+    # adjacent when the prices a
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i - 1]:
+            res += prices[i] - prices[i - 1]
+
+    return res
+
+if __name__ == "__main__":
+    prices = [100, 180, 260, 310, 40, 535, 695]
+    print(maximumProfit(prices))
+
+# Output: 865
+      `
     },
     {
-      id: 4,
-      question: "",
+      id: 13,
+      question: "13. Stock Buy and Sell - Max one Transaction Allowed",
+      answer: "Given an array prices[] of length N, representing the prices of the stocks on different days, the task is to find the maximum profit possible by buying and selling the stocks on different days when at most one transaction is allowed. Here one transaction means 1 buy + 1 Sell.",
+      codeExample: `
+# Python Program to solve stock buy and sell by  
+# exploring all possible pairs
+
+def max_profit(prices):
+    n = len(prices)
+    res = 0
+
+    # Explore all possible ways to buy and sell stock
+    for i in range(n - 1):           # this check first of list but skip the last element
+        for j in range(i + 1, n):    # this check last of list but skip the first element
+            res = max(res, prices[j] - prices[i])
+    
+    return res
+
+if __name__ == "__main__":
+    prices = [7, 10, 1, 3, 6, 9, 2]
+    print(max_profit(prices))
+
+
+Output:
+8
+
+------------------------------------------------------------------------------------------
+
+res is like a variable 
+
+🔍 Variables:
+
+  res: stores the maximum profit found so far
+  prices[i]: buy price (day i)
+  prices[j]: sell price (day j)
+  prices[j] - prices[i]: current profit from buying at i and selling at j
+
+📊 Visual Help:
+| Day | Price | Buy Here?  | Best Sell After? | Max Profit |
+| --- | ----- | ---------  | ---------------- | ---------- |
+| 0   | 7     | ✅         | 10 (Day 1)       | 3          |
+| 1   | 10    | ❌         | None             | -          |
+| 2   | 1     | ✅✅✅    | 9 (Day 5)        | 🔥 8       |
+| 3   | 3     | ✅         | 9                | 6          |
+| 4   | 6     | ✅         | 9                | 3          |
+| 5   | 9     | ✅         | 2                | -7         |
+| 6   | 2     | ✅         | None             | -          |
+
+
+------------------------------------------------------------------------------------------
+
+❌ No, res does not store all the profits like [3, 8, 5, 2, ...].
+
+✅ Instead, res stores only one value:
+      The maximum profit found so far during the loop.
+
+🔁 What really happens:
+As the loop runs, it keeps checking profits like:
+
+profit = prices[j] - prices[i]
+res = max(res, profit)
+
+Every time a new profit is found:
+
+  If it's greater than the current res, we update res.
+
+  If not, we leave res as is.
+
+
+✅ Answer:
+This line checks if prices[j] - prices[i] > res, and updates res only if the new profit is bigger.
+
+So yes — it behaves like this:
+
+profit = prices[j] - prices[i]
+if profit > res:
+    res = profit
+
+
+But the max() function does this in one line:
+
+res = max(res, profit)
+
+`
+    },
+    {
+      id: 14,
+      question: "14. How to find the length of the last word in a string",
       answer: "",
-      codeExample: ``
+      codeExample: `
+s = "Hello world from Python"
+last_word_length = len(s.strip().split()[-1])
+print(last_word_length)
+
+Output:
+6
+
+🔍 Explanation:
+s.strip()
+Removes leading/trailing spaces.
+
+.split()
+Splits the string into a list of words (by spaces).
+
+Example:
+"Hello world from Python".split() → ['Hello', 'world', 'from', 'Python']
+
+[-1]
+Gets the last word in the list → 'Python'
+
+len(...)
+Returns the length of that last word → 6
+
+------------------------------------------------------------------------------------------
+
+🧼 What is strip()?
+      strip() is a string method that removes spaces (and other whitespace like tabs and newlines) from the start and end of a string.
+
+------------------------------------------------------------------------------------------
+
+find the length of the last word in a string without using .strip().split()
+
+s = "  Hello world  "
+length = 0
+i = len(s) - 1    # Start from the last index of the string like len(s)=15 to i = 14
+
+# Step 1: Skip trailing spaces
+while i >= 0 and s[i] == ' ':
+    i -= 1
+
+# Step 2: Count the length of the last word
+while i >= 0 and s[i] != ' ':
+    length += 1
+    i -= 1
+
+print(length)
+
+Output:
+5
+
+      `
     },
     {
       id: 4,
@@ -476,7 +681,7 @@ print(unique)
     },
     {
       id: 1.1,
-      question: "1.1 Centered Pyramid Pattern",
+      question: "1.1. Centered Pyramid Pattern",
       answer: "",
       codeExample: `
 rows = 5  # Number of rows in the pyramid
@@ -498,7 +703,62 @@ Output:
     },
     {
       id: 1.2,
-      question: "1.2 Right-Angled Triangle with Increasing Numbers and Right-Aligned Last Column",
+      question: "1.2. Hollow Pyramid Star Pattern",
+      answer: "",
+      codeExample: `
+rows = 5
+
+for i in range(1, rows + 1):
+    spaces = ' ' * (rows - i)
+    if i == 1:
+        print(spaces + '*')
+    elif i == rows:
+        print('*' * (2 * rows - 1))
+    else:
+        middle_spaces = ' ' * (2 * i - 3)
+        print(spaces + '*' + middle_spaces + '*')
+
+Output:
+
+    *
+   * *
+  *   *
+ *     *
+*********
+
+`
+    },
+    {
+      id: 1.3,
+      question: "1.3. Palindromic Number Pyramid Pattern",
+      answer: "",
+      codeExample: `
+rows = 5
+
+for i in range(1, rows + 1):
+    spaces = ' ' * (rows - i)
+    
+    # Increasing numbers from 1 to i
+    inc_numbers = ''.join(str(j) for j in range(1, i + 1))
+    
+    # Decreasing numbers from i-1 down to 1
+    dec_numbers = ''.join(str(j) for j in range(i - 1, 0, -1))
+    
+    print(spaces + inc_numbers + dec_numbers)
+
+Output:
+
+    1
+   121
+  12321
+ 1234321
+123454321
+
+`
+    },
+    {
+      id: 1.4,
+      question: "1.4. Right-Angled Triangle with Increasing Numbers and Right-Aligned Last Column",
       answer: "",
       codeExample: `
 rows = 5
@@ -526,8 +786,8 @@ Output:
       `
     },
     {
-      id: 1.3,
-      question: "1.3 Diamond Number Pattern",
+      id: 1.5,
+      question: "1.5. Diamond Number Pattern",
       answer: "",
       codeExample: `
 # Upper part including the middle
@@ -550,8 +810,8 @@ output:
     `
     },
     {
-      id: 1.4,
-      question: "1.4 Centered Palindromic Number Pyramid",
+      id: 1.6,
+      question: "1.6. Centered Palindromic Number Pyramid",
       answer: "",
       codeExample: `
 rows = 5  # Height of the top half of the diamond
@@ -581,8 +841,8 @@ Output:
     `
     },
     {
-      id: 1.5,
-      question: "1.5 Diamond pattern ",
+      id: 1.7,
+      question: "1.7 Diamond pattern ",
       answer: "",
       codeExample: `
 rows = 5  # height of the diamond (center line)
@@ -615,8 +875,8 @@ Output:
 `
     },
     {
-      id: 1.6,
-      question: "1.6 Diamond pattern but used numbers",
+      id: 1.8,
+      question: "1.8. Diamond pattern but used numbers",
       answer: "",
       codeExample: `
 rows = 5  # Height of the top half of the diamond
@@ -648,8 +908,8 @@ Output:
 `
     },
     {
-      id: 1.7,
-      question: "1.7 X-shaped pattern",
+      id: 1.9,
+      question: "1.9 X-shaped pattern",
       answer: "",
       codeExample: `
 size = 5
@@ -681,8 +941,8 @@ if condition1 or condition2:
 `
     },
     {
-      id: 1.8,
-      question: "1.8 Alphabet triangle pattern",
+      id: 1.10,
+      question: "1.10. Alphabet triangle pattern",
       answer: "",
       codeExample: `
       

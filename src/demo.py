@@ -1,6 +1,14 @@
-rows = 5
+s = "  Hello world  "
+length = 0
+i = len(s) - 1
 
-for i in range(1, rows + 1):
-    for j in range(65, 65 + i):  # ASCII value of 'A' is 65
-        print(chr(j), end='')
-    print()
+# Step 1: Skip trailing spaces
+while i >= 0 and s[i] == ' ':
+    i -= 1
+
+# Step 2: Count the length of the last word
+while i >= 0 and s[i] != ' ':
+    length += 1
+    i -= 1
+
+print(length)
