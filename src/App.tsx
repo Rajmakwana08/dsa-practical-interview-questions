@@ -668,6 +668,302 @@ Output:
       `
     },
     {
+      id: 15,
+      question: "15. create sorted array",
+      answer: "",
+      codeExample: `
+arr = [5, 2, 9, 1, 3]
+
+for i in range(len(arr)):
+    for j in range(len(arr) - 1):
+        if arr[j] > arr[j + 1]:
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+print(arr)  # Output: [1, 2, 3, 5, 9]
+
+------------------------------------------------------------------------------------------
+
+using sorted() function and soert() method
+
+arr = [5, 2, 9, 1, 3]
+
+sorted_arr = sorted(arr)  # Does not change the original list
+print("Sorted:", sorted_arr)  # Output: [1, 2, 3, 5, 9]
+
+--------------------------------------------------------------------
+
+arr = [5, 2, 9, 1, 3]
+
+arr.sort()  # Sorts the list in-place
+print("Sorted:", arr)  # Output: [1, 2, 3, 5, 9]
+`
+    },
+    {
+      id: 16,
+      question: "16. positive and negative numbers to move right and left.",
+      answer: "",
+      codeExample: `
+arr = [5, -2, 9, -1, 3, -7, 6]
+
+positive = []
+negative = []
+
+for num in arr:
+    if num >= 0:
+        positive.append(num)
+    else:
+        negative.append(num)
+
+result = positive + negative
+print(result)
+`
+    },
+    {
+      id: 17,
+      question: "17. What is a Linked List?",
+      answer: "",
+      codeExample: `
+A linked list is a linear data structure where elements (called nodes) are connected one after another.
+Unlike arrays, which store elements in contiguous memory, linked lists use pointers to connect nodes.
+
+Each node contains:
+  The data
+  A reference (pointer) to the next node
+
+
+🟢 Why Use Linked Lists?
+✅ Dynamic size (easy to grow/shrink)
+✅ Efficient insertion/deletion (especially in the middle)
+❌ Slower access (you must traverse from the head to reach an element)
+
+
+🟢 Types of Linked Lists
+Singly Linked List
+Each node points to the next node.
+
+Doubly Linked List
+Each node points to both the next and the previous node.
+
+Circular Linked List
+The last node points back to the first node.
+
+------------------------------------------------------------------------------------------
+
+🟢 How to Implement a Singly Linked List in Python
+
+1️⃣ Define the Node Class
+Each node holds data and a pointer to the next node.
+
+class Node:
+    def __init__(self, data):
+        self.data = data        # The value stored in the node
+        self.next = None        # Pointer to the next node (default is None)
+
+✅ Example:
+node1 = Node(10)
+node2 = Node(20)
+node1.next = node2  # Linking node1 -> node2
+
+
+2️⃣ Define the LinkedList Class
+This class manages the head pointer and operations.
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # Initially the list is empty
+
+    # Insert at the end
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        last = self.head
+        while last.next:
+            last = last.next
+        last.next = new_node
+
+    # Display the list
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+✅ Example Usage:
+ll = LinkedList()
+ll.append(5)
+ll.append(15)
+ll.append(25)
+
+ll.display()
+
+
+Output:
+5 -> 15 -> 25 -> None
+
+---------------------------------------------------
+
+Let’s look at your LinkedList class:
+
+    class LinkedList:
+        def __init__(self):
+            self.head = None  # List starts empty
+
+✅ At the start, the list is empty:
+
+    head ➡️ None
+Suppose you do this:
+
+    ll = LinkedList()
+    ll.append(10)
+    ll.append(20)
+    ll.append(30)
+    ll.display()
+I will show you line by line what happens.
+
+🔹 Step 1: append(10)
+
+    new_node = Node(10)
+
+Creates a Node:
+
+    new_node:
+      data = 10
+      next = None
+  
+Then:
+
+    if self.head is None:
+        self.head = new_node
+
+Since head is None, the list is empty, so now:
+
+    head ➡️ [10 | next -> None]
+
+✅ The list now has:
+
+    [10]
+
+
+🔹 Step 2: append(20)
+Creates:
+
+    new_node:
+      data = 20
+      next = None
+
+Since self.head is not None (it points to the node with 10), we do:
+
+    last = self.head
+
+last points to:
+
+    [10 | next -> None]
+
+Then:
+
+  while last.next:
+      last = last.next
+Since last.next is None, this loop stops.
+
+Next:
+    last.next = new_node
+
+
+This connects the first node to the new one:
+
+    head ➡️ [10 | next -> [20 | next -> None]]
+
+✅ The list now:
+
+    10 -> 20
+
+
+🔹 Step 3: append(30)
+
+Creates:
+
+    new_node:
+      data = 30
+      next = None
+
+last = self.head points to:
+
+    [10]
+
+
+The while loop:
+
+First iteration: last.next is the node with 20, so:
+last = last.next
+
+Now last points to:
+    [20]
+
+Second iteration: last.next is None, so loop stops.
+
+Finally:
+
+    last.next = new_node
+
+Now node 20 points to node 30:
+
+    head ➡️ [10 | next -> [20 | next -> [30 | next -> None]]]
+
+✅ The list:
+
+    10 -> 20 -> 30
+
+
+🔹 Step 4: display()
+
+This prints all the data:
+
+current = self.head
+
+✅ Initially:
+
+current ➡️ [10]
+While loop:
+
+Print 10 ->
+Move current = current.next ➡️ node with 20
+
+Print 20 ->
+Move current = current.next ➡️ node with 30
+
+Print 30 ->
+Move current = current.next ➡️ None
+
+Print None at the end.
+
+✅ Full Visual Recap
+After all appends:
+
+
+head
+  ↓
+[10] -> [20] -> [30] -> None
+Every append:
+
+Creates a new node.
+
+Traverses the list (last = self.head) to find the last node.
+
+Updates last.next to point to the new node.
+
+
+`
+    },
+    {
+      id: 4,
+      question: "",
+      answer: "",
+      codeExample: ``
+    },
+    {
       id: 4,
       question: "",
       answer: "",
@@ -1012,14 +1308,13 @@ ABCDE
       <div className="questions-container">
         {questions.map((q) => (
           <div key={q.id} className="question-item">
-          <pre>
+          
             <button 
               className={`question-button ${activeId === q.id ? 'active' : ''}`}
               onClick={() => toggleQuestion(q.id)}
             >
               {q.question}
             </button>
-          </pre>
             {activeId === q.id && (
               <div className="answer-container">
                 <div className="answer">
